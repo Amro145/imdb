@@ -1,15 +1,18 @@
 import React from "react";
 import AddToFavourit from "./AddToFavourit";
+import Link from "next/link";
 
 function Card({ item }) {
   return (
     <div className="border p-4 m-2 flex flex-col justify-between ">
-      <img
-        src={`https://image.tmdb.org/t/p/w500${item.poster_path}`}
-        alt={item.title || item.name}
-      />
-      <h1 className="my-2 font-bold"> - {item.title || item.name}</h1>
-      <p>{item.overview || item.description}</p>
+      <Link href={`/details/${item.id}`}>
+        <img
+          src={`https://image.tmdb.org/t/p/w500${item.poster_path}`}
+          alt={item.title || item.name}
+        />
+        <h1 className="my-2 font-bold"> - {item.title || item.name}</h1>
+        <p>{item.overview || item.description}</p>
+      </Link>
       <div className="mt-2 flex flex-col justify-between">
         <div className="flex items-center justify-between">
           <span
@@ -23,10 +26,9 @@ function Card({ item }) {
           >
             Rating: {item.vote_average.toString().slice(0, 3)}
           </span>
-          <AddToFavourit />
+          <AddToFavourit movie={item} />
         </div>
 
-        
         <span className="text-sm text-gray-400 mt-1">
           Release Date: {item.release_date || item.first_air_date}
         </span>

@@ -1,7 +1,8 @@
 "use client";
 import React, { useEffect, useState } from "react";
 
-function AddToFavourit() {
+function AddToFavourit({ movie }) {
+  console.log(movie);
   const [isFavorited, setIsFavorited] = useState(false);
 
   const changeFavourit = () => {
