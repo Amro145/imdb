@@ -12,7 +12,7 @@ export default function Header() {
           <Link href={'/sign-in'}>Sign in</Link>
         </SignedOut>
         <li className='hidden sm:block'>
-          <Link href={'/'}>Home</Link>
+          <Link href={'/'}>Home1</Link>
         </li>
         <li className='hidden sm:block'>
           <Link href={'/about'}>About</Link>
