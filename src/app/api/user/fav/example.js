@@ -1,6 +1,6 @@
-import User from "@/lib/models/user.model";
-import { connect } from "@/lib/mongodb/mongoose";
-import { clerkClient, currentUser } from "@clerk/nextjs/dist/types/server";
+import User from '../../../../lib/models/user.model';
+import { connect } from '../../../../lib/mongodb/mongoose';
+import { clerkClient, currentUser } from '@clerk/nextjs/server';
 
 export const PUT = async (req) => {
   const user = await currentUser();
@@ -9,18 +9,20 @@ export const PUT = async (req) => {
     await connect();
     const data = await req.json();
     if (!user) {
-      return { message: "Unauthorized", status: 401 };
+      return { status: 401, body: 'Unauthorized' };
     }
     const existingUser = await User.findById(user.publicMetadata.userMongoId);
-    if (existingUser?.favs?.some((fav) => fav.movieId === data.movieId)) {
-      const updateUser = await User.findByIdAndUpdate(
+    if (existingUser.favs.some((fav) => fav.movieId === data.movieId)) {
+      const updatedUser = await User.findByIdAndUpdate(
         user.publicMetadata.userMongoId,
         { $pull: { favs: { movieId: data.movieId } } },
         { new: true }
       );
-      const updatedFavs = updateUser.favs.map((fav) => fav.movieId);
+      const updatedFavs = updatedUser.favs.map((fav) => fav.movieId);
       await client.users.updateUserMetadata(user.id, {
-        publicMetadata: { favs: updatedFavs },
+        publicMetadata: {
+          favs: updatedFavs,
+        },
       });
       return new Response(JSON.stringify(updatedUser), { status: 200 });
     } else {
@@ -42,12 +44,14 @@ export const PUT = async (req) => {
       );
       const updatedFavs = updatedUser.favs.map((fav) => fav.movieId);
       await client.users.updateUserMetadata(user.id, {
-        publicMetadata: { favs: updatedFavs },
+        publicMetadata: {
+          favs: updatedFavs,
+        },
       });
       return new Response(JSON.stringify(updatedUser), { status: 200 });
     }
   } catch (error) {
-    console.log("Error adding favs to the user:", error);
-    return new Response("Error adding favs to the user", { status: 500 });
+    console.log('Error adding favs to the user:', error);
+    return new Response('Error adding favs to the user', { status: 500 });
   }
 };
