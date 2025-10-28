@@ -12,23 +12,16 @@ function AddToFavourit({
   release_date,
   vote_average,
 }) {
-  console.log(
-    movieId,
-    title,
-    image,
-    rating,
-    overview,
-    release_date,
-    vote_average
-  );
   const [isFavorited, setIsFavorited] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { isSignedIn, user, isLoaded } = useUser();
+
   const router = useRouter();
+
   useEffect(() => {
     setIsLoading(true);
     if (isLoaded && isSignedIn && user) {
-      setIsFavorited(user.publicMetadata.favs?.include(movieId));
+      setIsFavorited(user?.publicMetadata?.favs?.includes(movieId));
       setIsLoading(false);
     } else {
       setIsLoading(false);
@@ -45,7 +38,7 @@ function AddToFavourit({
         const res = await fetch("/api/user/fav", {
           method: "PUT",
           headers: {
-            'Content-Type': "application/json",
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({
             movieId,

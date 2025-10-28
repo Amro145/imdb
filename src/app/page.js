@@ -12,7 +12,6 @@ export default async function Home() {
   }
 
   const data = await res.json();
-  console.log(data);
   const results = data.results;
 
   return (
