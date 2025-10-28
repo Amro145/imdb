@@ -24,9 +24,9 @@ function Card({ item }) {
                 : "bg-red-500 text-white px-2 py-1 rounded"
             }
           >
-            Rating: {item.vote_average.toString().slice(0, 3)}
+            Rating: {item.vote_average?.toString().slice(0, 3)}
           </span>
-          <AddToFavourit
+          {/* <AddToFavourit
             movieId={item.id}
             title={item.title || item.name}
             image={item.backdrop_path || item.poster_path}
@@ -34,7 +34,7 @@ function Card({ item }) {
             overview={item.overview || item.description}
             release_date={item.release_date || item.first_air_date}
             vote_average={item.vote_average}
-          />
+          /> */}
         </div>
 
         <span className="text-sm text-gray-400 mt-1">

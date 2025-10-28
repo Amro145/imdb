@@ -17,6 +17,15 @@ export default function Header() {
         <li className='hidden sm:block'>
           <Link href={'/about'}>About</Link>
         </li>
+        <li className='hidden sm:block'>
+          <Link href={'/Favourits'}>Favourites</Link>
+        </li>
+         <li className='block sm:hidden '>
+          <Link href={'/'}>Home2</Link>
+        </li>
+        <li className='block sm:hidden'>
+          <Link href={'/about'}>About2</Link>
+        </li>
       </ul>
       <div className='flex items-center gap-4'>
         <DarkModeSwitch />
