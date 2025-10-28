@@ -24,41 +24,53 @@ async function MovieDetails({ params }) {
     <div className="movie-details-container max-h-screen p-8  flex ">
       <img
         src={`https://image.tmdb.org/t/p/original${
-          data.poster_path || data.backdrop_path
+          data?.poster_path || data?.backdrop_path
         }`}
-        alt={data.title}
+        alt={data?.title}
         className="rounded-lg shadow-md w-1/3 mr-8 object-cover"
       />
 
       <div className="movie-info w-2/3 flex flex-col gap-3">
-        <h1 className="text-3xl font-bold mb-4">{data.title}</h1>
+        <h1 className="text-3xl font-bold mb-4">
+          {data?.title || "No Title Available"}
+        </h1>
         <p>
-          <span className="font-bold ">Overview:</span> {data.overview}
+          <span className="font-bold ">Overview:</span>{" "}
+          {data?.overview || "No overview available."}
         </p>
         <p>
-          <span className="font-bold">Date Released:</span> {data.release_date}
+          <span className="font-bold">Date Released:</span>{" "}
+          {data?.release_date || "Unknown"}
         </p>
         <p>
           <span className="font-bold">Rating:</span>{" "}
           <span
             className={
-              data.vote_average > 7 && data.vote_average < 8
+              data?.vote_average > 7 && data?.vote_average < 8
                 ? "bg-blue-500 text-white px-2 py-1 rounded"
-                : data.vote_average >= 8
+                : data?.vote_average >= 8
                 ? "bg-green-500 text-white px-2 py-1 rounded"
                 : "bg-red-500 text-white px-2 py-1 rounded"
             }
           >
-            {data.vote_average.toString().slice(0, 3)}
+            {data?.vote_average.toString().slice(0, 3) || "N/A"}
           </span>
         </p>
         <p>
           <span className="font-bold">Genres:</span>{" "}
-          {data.genres.map((genre) => genre.name).join(", ")}
+          {data?.genres.map((genre) => genre.name).join(", ") || "N/A"}
         </p>
         <div className="flex items-center">
           Add To Favourites:
-          <AddToFavourit movie={data} />
+          <AddToFavourit
+            movieId={data?.id}
+            title={data?.title || data?.name}
+            image={data?.backdrop_path || data?.poster_path}
+            rating={data?.vote_average}
+            overview={data?.overview || data?.description}
+            release_date={data?.release_date || data?.first_air_date}
+            vote_average={data?.vote_average}
+          />
         </div>
       </div>
     </div>

@@ -1,29 +1,83 @@
 "use client";
+import { useUser } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
-function AddToFavourit({ movie }) {
-  console.log(movie);
+function AddToFavourit({
+  movieId,
+  title,
+  image,
+  rating,
+  overview,
+  release_date,
+  vote_average,
+}) {
+  console.log(
+    movieId,
+    title,
+    image,
+    rating,
+    overview,
+    release_date,
+    vote_average
+  );
   const [isFavorited, setIsFavorited] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const { isSignedIn, user, isLoaded } = useUser();
+  const router = useRouter();
+  useEffect(() => {
+    setIsLoading(true);
+    if (isLoaded && isSignedIn && user) {
+      setIsFavorited(user.publicMetadata.favs?.include(movieId));
+      setIsLoading(false);
+    } else {
+      setIsLoading(false);
+    }
+  }, [movieId, isLoaded, isSignedIn, user]);
 
-  const changeFavourit = () => {
-    setIsFavorited((prev) => !prev);
+  const handleFavClick = async () => {
+    setIsLoading(true);
+    if (!isSignedIn) {
+      router.push("/sign-in");
+      return;
+    } else {
+      try {
+        const res = await fetch("/api/user/fav", {
+          method: "PUT",
+          headers: {
+            'Content-Type': "application/json",
+          },
+          body: JSON.stringify({
+            movieId,
+            title,
+            image,
+            rating,
+            overview,
+            release_date,
+            vote_average,
+          }),
+        });
+        if (res.ok) {
+          setIsFavorited(!isFavorited);
+        } else {
+          console.log("Error updating favourites:", await res.json());
+        }
+      } catch (error) {
+        console.log("Error updating favourites:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    }
   };
 
   return (
     <>
       <button
-        onClick={changeFavourit}
+        onClick={handleFavClick}
         className="ml-4  px-2 py-1 rounded flex items-center"
+        disabled={isLoading}
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className={`${
-            !isFavorited ? "text-gray-800 dark:text-white" : "text-rose-400"
-          } h-6 w-6 mr-1 fill-current`}
-          viewBox="0 0 20 20"
-        >
-          <path d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" />
-        </svg>
+        {isLoading ? "..." : isFavorited ? "❤️" : "🤍"}
       </button>
     </>
   );
