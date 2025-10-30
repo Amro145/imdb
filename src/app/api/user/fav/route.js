@@ -16,7 +16,8 @@ export const PUT = async (req) => {
   try {
     await connect();
     const data = await req.json();
-
+  
+    console.log("Data received in fav route:", data);
     let updatedUser;
 
     const existingUser = await User.findById(userMongoId);
@@ -46,11 +47,11 @@ export const PUT = async (req) => {
           $addToSet: {
             favs: {
               movieId: data.movieId,
-              title: data.title,
+              title: data.title || data.name,
               description: data.overview,
-              dateReleased: data.releaseDate,
-              rating: data.voteCount,
-              image: data.image,
+              dateReleased: data.release_date || data.first_air_date,
+              rating: data.vote_average || data.vote_count,
+              image: data.image || data.backdrop_path || data.poster_path,
             },
           },
         },

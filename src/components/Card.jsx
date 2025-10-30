@@ -5,9 +5,9 @@ import Link from "next/link";
 function Card({ item }) {
   return (
     <div className="border p-4 m-2 flex flex-col justify-between ">
-      <Link href={`/details/${item.id}`}>
+      <Link href={`/details/${item.id || item.movieId}`}>
         <img
-          src={`https://image.tmdb.org/t/p/w500${item.poster_path}`}
+          src={`https://image.tmdb.org/t/p/w500${item.poster_path || item.backdrop_path || item.image}`}
           alt={item.title || item.name}
         />
         <h1 className="my-2 font-bold"> - {item.title || item.name}</h1>
@@ -17,14 +17,14 @@ function Card({ item }) {
         <div className="flex items-center justify-between">
           <span
             className={
-              item.vote_average > 7 && item.vote_average < 8
+              (item.vote_average || item.rating) > 7 && (item.vote_average || item.rating) < 8
                 ? "bg-blue-500 text-white px-2 py-1 rounded"
-                : item.vote_average >= 8
+                : (item.vote_average || item.rating) >= 8
                 ? "bg-green-500 text-white px-2 py-1 rounded"
                 : "bg-red-500 text-white px-2 py-1 rounded"
             }
           >
-            Rating: {item.vote_average?.toString().slice(0, 3)}
+            Rating: {(item.vote_average || item.rating)?.toString().slice(0, 3)}
           </span>
           {/* <AddToFavourit
             movieId={item.id}
@@ -38,7 +38,7 @@ function Card({ item }) {
         </div>
 
         <span className="text-sm text-gray-400 mt-1">
-          Release Date: {item.release_date || item.first_air_date}
+          Release Date: {(item.release_date || item.releaseDate || item.first_air_date) || "Unknown"}
         </span>
       </div>
     </div>

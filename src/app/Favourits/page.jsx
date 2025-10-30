@@ -30,8 +30,12 @@ function Favourites() {
       console.log("User is signed in, fetching favourites...");
       fetchFavourites();
     }
-    console.log(results);
   }, [isSignedIn, isLoaded, user]);
+
+  useEffect(() => {
+    console.log("result from favourites page:", results);
+  }, [results]);
+
   if (!isSignedIn) {
     return (
       <p className="text-white text-center mt-10">
@@ -44,7 +48,20 @@ function Favourites() {
       {!results || !results?.length === 0 ? (
         <p className="text-white text-center mt-10">No favourites added yet.</p>
       ) : (
-        results && results?.length > 0 && <Result results={results} />
+        results &&
+        results?.length > 0 && (
+          <Result
+            results={results.map((result) => ({
+              ...result,
+              id: result.movieId,
+              title: result.title,
+              backdrop_path: result.image,
+              overview: result.description,
+              first_air_date: result.dateReleased,
+              vote_count: result.rating,
+            }))}
+          />
+        )
       )}
     </div>
   );
