@@ -2,6 +2,7 @@
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import { FaHeart } from "react-icons/fa";
 
 function AddToFavourit({
   movieId,
@@ -70,7 +71,22 @@ function AddToFavourit({
         className="ml-4  px-2 py-1 rounded flex items-center"
         disabled={isLoading}
       >
-        {isLoading ? "..." : isFavorited ? "❤️" : "🤍"}
+        {isLoading ? (
+          <span className="text-xl animate-pulse-heart">
+            <FaHeart />
+          </span>
+        ) : isFavorited ? (
+          <span className=" text-xl">
+            {" "}
+            <FaHeart className="red" />
+          </span>
+        ) : (
+          <span className="text-xl">
+            <FaHeart className="white" />
+          </span>
+        )}
+
+        {/* باقي محتوى المكون */}
       </button>
     </>
   );

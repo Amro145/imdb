@@ -19,3 +19,25 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 } */
+
+@keyframes pulse-heart {
+  0%,
+  50% {
+    color: white;
+    /* transform: scale(1); */
+  } /* اللون الأبيض وحجم عادي */
+  50% {
+    color: red;
+    /* transform: scale(1.1); */
+  } /* اللون الأحمر وحجم أكبر قليلاً (نبض) */
+}
+
+.animate-pulse-heart {
+  animation: pulse-heart 1s infinite; /* تطبيق الحركة كل ثانية بشكل مستمر */
+}
+.red {
+  color: red;
+}
+.white {
+  color: white;
+}

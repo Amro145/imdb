@@ -1,13 +1,16 @@
 "use client";
+import Loading from "@/components/Loading";
 import Result from "@/components/Result";
 import { useUser } from "@clerk/nextjs";
 import React, { useEffect, useState } from "react";
 
 function Favourites() {
   const [results, setResults] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const { isSignedIn, user, isLoaded } = useUser();
   useEffect(() => {
     const fetchFavourites = async () => {
+      setIsLoading(true);
       try {
         const res = await fetch("/api/user/getFav", {
           method: "PUT",
@@ -23,6 +26,8 @@ function Favourites() {
         }
       } catch (error) {
         console.error("Error fetching favourites:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
     if (isLoaded && isSignedIn && user) {
@@ -30,9 +35,15 @@ function Favourites() {
     }
   }, [isSignedIn, isLoaded, user]);
 
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <Loading />
+      </div>
+    );
+  }
 
-
-  if (!isSignedIn) {
+  if (!isSignedIn && isLoaded) {
     return (
       <p className="text-white text-center mt-10">
         Please sign in to view your favourites.
@@ -41,7 +52,7 @@ function Favourites() {
   }
   return (
     <div>
-      {!results || !results?.length === 0 ? (
+      {(!isLoading && isLoaded && !results) || !results?.length === 0 ? (
         <p className="text-white text-center mt-10">No favourites added yet.</p>
       ) : (
         results &&
