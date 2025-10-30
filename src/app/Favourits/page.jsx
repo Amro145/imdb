@@ -52,7 +52,7 @@ function Favourites() {
   }
   return (
     <div>
-      {(!isLoading && isLoaded && !results) || !results?.length === 0 ? (
+      {(!isLoading && !results) || results?.length === 0 ? (
         <p className="text-white text-center mt-10">No favourites added yet.</p>
       ) : (
         results &&

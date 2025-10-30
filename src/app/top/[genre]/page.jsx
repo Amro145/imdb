@@ -2,7 +2,8 @@ import Result from "@/components/Result";
 const API_KEY = process.env.API_KEY;
 
 export default async function Page({ params }) {
-  const genre = params?.genre || "trending";
+  const paramsData = await params;
+  const genre = paramsData?.genre || "trending";
 
   const res = await fetch(
     `https://api.themoviedb.org/3${

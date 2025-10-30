@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import ThemeCom from "@/components/ThemeCom";
 import { ClerkProvider } from "@clerk/nextjs";
 import SearchBox from "@/components/SearchBox";
+import ProgressBar from "@/components/ProgressBar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,6 +27,7 @@ export default function RootLayout({ children }) {
     <ClerkProvider>
       <html lang="en" suppressHydrationWarning>
         <body>
+          <ProgressBar />
           <ThemeCom>
             <Header />
             <Navbar />
