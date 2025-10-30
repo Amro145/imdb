@@ -8,7 +8,6 @@ async function MovieDetails({ params }) {
     `https://api.themoviedb.org/3/movie/${id}?api_key=${process.env.API_KEY}&language=en-US`
   );
   const data = await res.json();
-  console.log(data);
   if (!res.ok)
     return (
       <div className="error-container min-h-screen flex flex-col justify-center items-center">

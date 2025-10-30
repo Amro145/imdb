@@ -17,7 +17,6 @@ function Favourites() {
         });
         if (res.ok) {
           const data = await res.json();
-          console.log("Favourites data:", data);
           setResults(data.favs);
         } else {
           console.error(data.message);
@@ -27,14 +26,11 @@ function Favourites() {
       }
     };
     if (isLoaded && isSignedIn && user) {
-      console.log("User is signed in, fetching favourites...");
       fetchFavourites();
     }
   }, [isSignedIn, isLoaded, user]);
 
-  useEffect(() => {
-    console.log("result from favourites page:", results);
-  }, [results]);
+
 
   if (!isSignedIn) {
     return (

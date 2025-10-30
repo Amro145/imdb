@@ -20,7 +20,6 @@ export default async function Page({ params }) {
   }
 
   const data = await res.json();
-  console.log(data);
   const results = data.results;
 
   return (

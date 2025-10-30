@@ -17,7 +17,6 @@ export const PUT = async (req) => {
     await connect();
     const data = await req.json();
   
-    console.log("Data received in fav route:", data);
     let updatedUser;
 
     const existingUser = await User.findById(userMongoId);
@@ -40,7 +39,6 @@ export const PUT = async (req) => {
         { new: true }
       );
     } else {
-      console.log(typeof data.movieId);
       updatedUser = await User.findByIdAndUpdate(
         userMongoId,
         {
