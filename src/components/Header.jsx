@@ -16,11 +16,9 @@ export default function Header() {
           <Link href={"/sign-in"}>Sign in</Link>
         </SignedOut>
         <li className="hidden sm:block">
-          <Link href={"/"}>Home1</Link>
+          <Link href={"/"}>Home</Link>
         </li>
-        <li className="hidden sm:block">
-          <Link href={"/about"}>About</Link>
-        </li>
+
         <li className="hidden sm:block">
           <Link href={"/Favourits"}>Favourites</Link>
         </li>
@@ -29,11 +27,7 @@ export default function Header() {
             <FaHome />
           </Link>
         </li>
-        <li className="block sm:hidden text-2xl">
-          <Link href={"/about"}>
-            <MdPeopleOutline />
-          </Link>
-        </li>
+
         <li className="block sm:hidden text-2xl">
           <Link href={"/Favourits"}>
             <CiStar />
