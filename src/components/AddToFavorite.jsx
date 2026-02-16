@@ -22,7 +22,7 @@ function AddToFavorite({
   useEffect(() => {
     setIsLoading(true);
     if (isLoaded && isSignedIn && user) {
-      setIsFavorited(user?.publicMetadata?.favs?.includes(movieId));
+      setIsFavorited(user?.publicMetadata?.favs?.includes(String(movieId)));
       setIsLoading(false);
     } else {
       setIsLoading(false);
