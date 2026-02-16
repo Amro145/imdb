@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { FaHeart } from "react-icons/fa";
 
-function AddToFavourit({
+function AddToFavorite({
   movieId,
   title,
   image,
@@ -68,28 +68,26 @@ function AddToFavourit({
     <>
       <button
         onClick={handleFavClick}
-        className="ml-4  px-2 py-1 rounded flex items-center"
+        className="ml-1 px-2 py-1 rounded flex items-center transition-colors duration-200"
         disabled={isLoading}
       >
         {isLoading ? (
-          <span className="text-xl animate-pulse-heart">
+          <span className="text-xl animate-pulse text-gray-400">
             <FaHeart />
           </span>
         ) : isFavorited ? (
-          <span className=" text-xl">
-            {" "}
-            <FaHeart className="red" />
+          <span className="text-xl text-red-600 hover:text-red-700">
+            <FaHeart />
           </span>
         ) : (
-          <span className="text-xl">
-            <FaHeart className="white" />
+          <span className="text-xl text-gray-400 hover:text-gray-600 dark:hover:text-gray-200">
+            <FaHeart />
           </span>
         )}
-
-        {/* باقي محتوى المكون */}
       </button>
     </>
   );
 }
 
-export default AddToFavourit;
+export default AddToFavorite;
+

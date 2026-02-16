@@ -7,12 +7,17 @@ export const PUT = async (req) => {
   try {
     await connect();
     if (!user) {
-      return new Response({ message: "Unauthorized" }, { status: 401 });
+      return new Response(JSON.stringify({ message: "Unauthorized" }), {
+        status: 401,
+      });
     }
     const existingUser = await User.findById(user.publicMetadata.userMongoId);
     if (!existingUser) {
-      return new Response({ message: "User not found" }, { status: 404 });
+      return new Response(JSON.stringify({ message: "User not found" }), {
+        status: 404,
+      });
     }
+
     return new Response(JSON.stringify({ favs: existingUser.favs }), {
       status: 200,
     });

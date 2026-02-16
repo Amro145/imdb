@@ -22,6 +22,7 @@ function Favourites() {
           const data = await res.json();
           setResults(data.favs);
         } else {
+          const data = await res.json();
           console.error(data.message);
         }
       } catch (error) {
@@ -45,7 +46,7 @@ function Favourites() {
 
   if (!isSignedIn && isLoaded) {
     return (
-      <p className="text-white text-center mt-10">
+      <p className="text-gray-700 dark:text-gray-200 text-center mt-10">
         Please sign in to view your favourites.
       </p>
     );
@@ -53,11 +54,14 @@ function Favourites() {
   return (
     <div>
       {(!isLoading && !results) || results?.length === 0 ? (
-        <p className="text-white text-center mt-10">No favourites added yet.</p>
+        <p className="text-gray-700 dark:text-gray-200 text-center mt-10">
+          No favourites added yet.
+        </p>
       ) : (
         results &&
         results?.length > 0 && (
           <Result
+
             results={results.map((result) => ({
               ...result,
               id: result.movieId,

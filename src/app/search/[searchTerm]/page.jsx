@@ -2,7 +2,8 @@ import Result from "@/components/Result";
 import React from "react";
 
 async function page({ params }) {
-  const { searchTerm } = params;
+  const { searchTerm } = await params;
+
   const res = await fetch(
     `https://api.themoviedb.org/3/search/movie?api_key=${process.env.API_KEY}&language=en-US&query=${searchTerm}&page=1&include_adult=false`
   );

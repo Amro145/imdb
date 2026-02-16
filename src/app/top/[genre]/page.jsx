@@ -6,14 +6,12 @@ export default async function Page({ params }) {
   const genre = paramsData?.genre || "trending";
 
   const res = await fetch(
-    `https://api.themoviedb.org/3${
-      genre === "trending"
-        ? `/trending/all/week?api_key=${API_KEY}&language=en-US`
-        : genre === "rating"
-        ? `/movie/top_rated?api_key=${API_KEY}&language=en-US`
-        : `/trending/all/week?api_key=${API_KEY}&language=en-US&page=2`
+    `https://api.themoviedb.org/3${genre === "top_rated"
+      ? `/movie/top_rated?api_key=${API_KEY}&language=en-US`
+      : `/trending/all/week?api_key=${API_KEY}&language=en-US`
     }`
   );
+
 
   if (!res.ok) {
     console.error(`Failed to fetch data: Status ${res.status}`);

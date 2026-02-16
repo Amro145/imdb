@@ -20,7 +20,7 @@ export default function Header() {
         </li>
 
         <li className="hidden sm:block">
-          <Link href={"/Favourits"}>Favourites</Link>
+          <Link href={"/favorites"}>Favourites</Link>
         </li>
         <li className="block sm:hidden  text-2xl">
           <Link href={"/"}>
@@ -29,10 +29,11 @@ export default function Header() {
         </li>
 
         <li className="block sm:hidden text-2xl">
-          <Link href={"/Favourits"}>
+          <Link href={"/favorites"}>
             <CiStar />
           </Link>
         </li>
+
       </ul>
       <div className="flex items-center gap-4">
         <DarkModeSwitch />
