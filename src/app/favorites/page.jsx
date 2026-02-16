@@ -13,11 +13,12 @@ function Favourites() {
       setIsLoading(true);
       try {
         const res = await fetch("/api/user/getFav", {
-          method: "PUT",
+          method: "GET",
           headers: {
             "Content-Type": "application/json",
           },
         });
+
         if (res.ok) {
           const data = await res.json();
           setResults(data.favs);

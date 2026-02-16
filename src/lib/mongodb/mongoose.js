@@ -1,20 +1,19 @@
 import mongoose from 'mongoose';
-let initialized = false;
 export const connect = async () => {
   mongoose.set('strictQuery', true);
-  if (initialized) {
+
+  if (mongoose.connection.readyState === 1) {
     console.log('MongoDB already connected');
     return;
   }
+
   try {
     await mongoose.connect(process.env.MONGODB_URI, {
       dbName: 'next-imdb-clerk',
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
     });
-    initialized = true;
     console.log('MongoDB connected');
   } catch (error) {
-    console.log('MongoDB connection error:', error);
+    console.error('MongoDB connection error:', error);
+    throw error;
   }
 };

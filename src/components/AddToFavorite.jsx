@@ -54,13 +54,17 @@ function AddToFavorite({
         if (res.ok) {
           setIsFavorited(!isFavorited);
         } else {
-          console.log("Error updating favourites:", await res.json());
+          const errorData = await res.json();
+          alert(errorData.message || "Failed to update favorites");
+          console.error("Error updating favourites:", errorData);
         }
       } catch (error) {
-        console.log("Error updating favourites:", error);
+        alert("An error occurred while updating favorites. Please try again.");
+        console.error("Error updating favourites:", error);
       } finally {
         setIsLoading(false);
       }
+
     }
   };
 

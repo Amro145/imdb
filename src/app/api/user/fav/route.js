@@ -5,37 +5,54 @@ import { clerkClient, currentUser } from "@clerk/nextjs/server";
 export const PUT = async (req) => {
   const user = await currentUser();
   const client = await clerkClient();
-  const userMongoId = user?.publicMetadata?.userMongoId;
 
-  if (!user || !userMongoId) {
+  if (!user) {
     return new Response(JSON.stringify({ message: "Unauthorized" }), {
       status: 401,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+
+  const userMongoId = user.publicMetadata?.userMongoId;
+
+  if (!userMongoId) {
+    return new Response(JSON.stringify({ message: "User ID not found" }), {
+      status: 400,
+      headers: { "Content-Type": "application/json" },
     });
   }
 
   try {
     await connect();
     const data = await req.json();
-  
-    let updatedUser;
 
+    if (!data.movieId) {
+      return new Response(JSON.stringify({ message: "Movie ID is required" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
+    let updatedUser;
     const existingUser = await User.findById(userMongoId);
 
     if (!existingUser) {
       return new Response(
         JSON.stringify({ message: "User profile not found in database." }),
-        { status: 404 }
+        { status: 404, headers: { "Content-Type": "application/json" } }
       );
     }
 
+    const movieIdStr = String(data.movieId);
+
     if (
       existingUser.favs.some(
-        (fav) => Number(fav.movieId) === Number(data.movieId)
+        (fav) => String(fav.movieId) === movieIdStr
       )
     ) {
       updatedUser = await User.findByIdAndUpdate(
         userMongoId,
-        { $pull: { favs: { movieId: data.movieId } } },
+        { $pull: { favs: { movieId: movieIdStr } } },
         { new: true }
       );
     } else {
@@ -44,7 +61,7 @@ export const PUT = async (req) => {
         {
           $addToSet: {
             favs: {
-              movieId: data.movieId,
+              movieId: movieIdStr,
               title: data.title || data.name,
               description: data.overview,
               dateReleased: data.release_date || data.first_air_date,
@@ -58,16 +75,21 @@ export const PUT = async (req) => {
     }
 
     const updatedFavs =
-      updatedUser?.favs?.map((fav) => Number(fav.movieId)) || [];
+      updatedUser?.favs?.map((fav) => String(fav.movieId)) || [];
     await client.users.updateUserMetadata(user.id, {
-      publicMetadata: { favs: updatedFavs },
+      publicMetadata: { ...user.publicMetadata, favs: updatedFavs },
     });
 
-    return new Response(JSON.stringify(updatedUser), { status: 200 });
+    return new Response(JSON.stringify(updatedUser), {
+      status: 200,
+      headers: { "Content-Type": "application/json" }
+    });
   } catch (error) {
     console.error("Error adding/removing favs to the user:", error);
-    return new Response("Error adding/removing favs to the user", {
+    return new Response(JSON.stringify({ message: "Error updating favourites" }), {
       status: 500,
+      headers: { "Content-Type": "application/json" }
     });
   }
 };
+
