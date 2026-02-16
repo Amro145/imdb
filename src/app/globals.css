@@ -2,42 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-/* :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  body {
+    @apply antialiased transition-colors duration-300;
   }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-} */
-
-@keyframes pulse-heart {
-  0%,
-  50% {
-    color: white;
-    /* transform: scale(1); */
-  } /* اللون الأبيض وحجم عادي */
-  50% {
-    color: red;
-    /* transform: scale(1.1); */
-  } /* اللون الأحمر وحجم أكبر قليلاً (نبض) */
-}
-
-.animate-pulse-heart {
-  animation: pulse-heart 1s infinite; /* تطبيق الحركة كل ثانية بشكل مستمر */
-}
-.red {
-  color: red;
-}
-.white {
-  color: white;
-}

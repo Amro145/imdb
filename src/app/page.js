@@ -3,7 +3,7 @@ const API_KEY = process.env.API_KEY;
 
 export default async function Home() {
   const res = await fetch(
-    `https://api.themoviedb.org/3/movie/top_rated?api_key=${API_KEY}&language=en-US`
+    `https://api.themoviedb.org/3/trending/all/week?api_key=${API_KEY}&language=en-US`
   );
 
   if (!res.ok) {
@@ -15,8 +15,10 @@ export default async function Home() {
   const results = data.results;
 
   return (
-    <div className="container mx-auto px-4">
+    <main className="max-w-6xl mx-auto p-4">
+      <h2 className="text-2xl font-semibold mb-4 px-2">Trending Now</h2>
       <Result results={results} />
-    </div>
+    </main>
   );
 }
+
