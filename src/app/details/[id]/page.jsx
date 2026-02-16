@@ -66,7 +66,7 @@ async function MovieDetails({ params }) {
         </div>
 
         <div className="flex items-center gap-3 mt-4 p-4 bg-gray-50 dark:bg-gray-800/50 rounded-lg">
-          <span className="font-semibold">Add To Favourites:</span>
+          <span className="font-semibold"></span>
           <AddToFavorite
             movieId={data?.id}
             title={data?.title || data?.name}
