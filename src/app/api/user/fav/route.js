@@ -16,11 +16,13 @@ export const PUT = async (req) => {
   const userMongoId = user.publicMetadata?.userMongoId;
 
   if (!userMongoId) {
-    return new Response(JSON.stringify({ message: "User ID not found" }), {
+    console.error(`User ${user.id} has no userMongoId in publicMetadata`);
+    return new Response(JSON.stringify({ message: "User profile not linked. Please sign in again." }), {
       status: 400,
       headers: { "Content-Type": "application/json" },
     });
   }
+
 
   try {
     await connect();
@@ -34,14 +36,16 @@ export const PUT = async (req) => {
     }
 
     let updatedUser;
-    const existingUser = await User.findById(userMongoId);
+    const existingUser = await User.findOne({ _id: userMongoId });
 
     if (!existingUser) {
+      console.error(`No user found in MongoDB for ID: ${userMongoId}`);
       return new Response(
         JSON.stringify({ message: "User profile not found in database." }),
         { status: 404, headers: { "Content-Type": "application/json" } }
       );
     }
+
 
     const movieIdStr = String(data.movieId);
 

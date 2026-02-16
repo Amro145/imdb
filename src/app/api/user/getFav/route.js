@@ -12,13 +12,22 @@ export const GET = async (req) => {
         headers: { "Content-Type": "application/json" },
       });
     }
-    const existingUser = await User.findById(user.publicMetadata.userMongoId);
-    if (!existingUser) {
+    const userMongoId = user.publicMetadata?.userMongoId;
+    if (!userMongoId) {
       return new Response(JSON.stringify({ message: "User not found" }), {
         status: 404,
         headers: { "Content-Type": "application/json" },
       });
     }
+
+    const existingUser = await User.findById(userMongoId);
+    if (!existingUser) {
+      return new Response(JSON.stringify({ message: "User profile not found" }), {
+        status: 404,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
 
     return new Response(JSON.stringify({ favs: existingUser.favs }), {
       status: 200,

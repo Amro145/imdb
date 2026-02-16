@@ -19,13 +19,18 @@ function Favourites() {
           },
         });
 
-        if (res.ok) {
-          const data = await res.json();
-          setResults(data.favs);
-        } else {
-          const data = await res.json();
-          console.error(data.message);
+        let data;
+        const contentType = res.headers.get("content-type");
+        if (contentType && contentType.includes("application/json")) {
+          data = await res.json();
         }
+
+        if (res.ok) {
+          setResults(data?.favs || []);
+        } else {
+          console.error(data?.message || `Error ${res.status}: Failed to fetch data`);
+        }
+
       } catch (error) {
         console.error("Error fetching favourites:", error);
       } finally {

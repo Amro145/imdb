@@ -77,15 +77,14 @@ function AddToFavorite({
       >
         {isLoading ? (
           <span className="text-xl animate-pulse text-gray-400">
-            <FaHeart />
-          </span>
+            please wait...          </span>
         ) : isFavorited ? (
           <span className="text-xl text-red-600 hover:text-red-700">
-            <FaHeart />
+            Remove From Favs
           </span>
         ) : (
           <span className="text-xl text-gray-400 hover:text-gray-600 dark:hover:text-gray-200">
-            <FaHeart />
+            Add To Favs
           </span>
         )}
       </button>
