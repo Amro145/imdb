@@ -29,7 +29,11 @@ async function MovieDetails({ params }) {
     <div className="movie-details-container w-full max-w-6xl mx-auto p-4 md:p-8 flex flex-col md:flex-row gap-8">
       <div className="relative w-full md:w-1/3 aspect-[2/3] rounded-lg overflow-hidden shadow-xl">
         <Image
-          src={`https://image.tmdb.org/t/p/original${posterPath}`}
+          src={
+            posterPath
+              ? `https://image.tmdb.org/t/p/original${posterPath}`
+              : `https://placehold.co/500x750?text=${encodeURIComponent(data?.title || "No Image")}`
+          }
           alt={data?.title}
           fill
           className="object-cover"

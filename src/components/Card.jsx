@@ -14,7 +14,11 @@ function Card({ item }) {
       <Link href={`/details/${movieId}`}>
         <div className="relative aspect-[2/3] w-full mb-3 overflow-hidden rounded-md">
           <Image
-            src={`https://image.tmdb.org/t/p/w500${posterPath}`}
+            src={
+              posterPath
+                ? `https://image.tmdb.org/t/p/w500${posterPath}`
+                : `https://placehold.co/500x750?text=${encodeURIComponent(title)}`
+            }
             alt={title}
             fill
             className="object-cover group-hover:scale-105 transition-transform duration-300"

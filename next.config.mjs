@@ -7,6 +7,11 @@ const nextConfig = {
                 hostname: 'image.tmdb.org',
                 pathname: '/**',
             },
+            {
+                protocol: 'https',
+                hostname: 'placehold.co',
+                pathname: '/**',
+            },
         ],
     },
 };
